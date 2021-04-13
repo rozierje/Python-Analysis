@@ -38,10 +38,9 @@ with open(csvpath) as election_results:
       # if not in list, add it; if in list move on
          candidate_list.append(candidatename)
          #if already in list, add the candidate to the dictionary; 
-         # set candidate total at 0;
+         # initialize candidate with 1 vote
          #{"Khan":0}
          candidates[candidatename] = 0
-      #initia;ize candidate with 1 vote
       candidates[candidatename] = candidates[candidatename] + 1
    print("Total Votes")
    print(total_votes)
@@ -65,13 +64,14 @@ with open(csvpath) as election_results:
    print(f"Winner: {winner}")
    print("--------------------------------")
 
+
 ################### write new text file ########################
 
 # Specify the file to write to
 output_path = os.path.join("..", "PyPoll", "Analysis", "results.txt")
 
 # Open the file using "write" mode. Specify the variable to hold the contents
-with open(output_path, "w", newline= "") as txtfile:
+with open(output_path, 'w', newline='') as txtfile:
 
    # Initialize csv.writer
    csvwriter = csv.writer(txtfile, delimiter=',')
@@ -81,7 +81,7 @@ with open(output_path, "w", newline= "") as txtfile:
    csvwriter.writerow(["-------------------------------------"])
    csvwriter.writerow(["Total Votes: " + str(total_votes) +" "])
    csvwriter.writerow(["--------------------------------------"])
-   csvwriter.writerow([f"{candidates}"])
+   csvwriter.writerow(f'{candidates}: {candidate_percentage:.3f}% ({candidate_votes})')
    csvwriter.writerow(["--------------------------------------"])
    csvwriter.writerow([f"Winner: {winner}"])
    csvwriter.writerow(["--------------------------------------"])

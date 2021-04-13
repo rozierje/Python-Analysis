@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # First we'll import the os module
 # This will allow us to create file paths across operating systems
 import os
@@ -81,4 +82,3 @@ with open(output_path, 'w', newline='') as txtfile:
 
     csvwriter.writerow(["--------------------------------------"])
   
-#-------------------------unsure if this code runs---------------------
