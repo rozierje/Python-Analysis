@@ -84,6 +84,7 @@ with open(output_path, 'w', newline='') as txtfile:
    wr.writerow(["Total Votes: " + str(total_votes) +" "])
    wr.writerow(["--------------------------------------"])
    x=len(candidate_list)
+#create columns with the data
    for i in range(x):
       wr.writerow([f'{candidate_list[i]}: {table[i+x]} {table[i+x+1]}%'])
       table.pop(i+x)
