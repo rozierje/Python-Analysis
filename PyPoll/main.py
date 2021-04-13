@@ -4,9 +4,11 @@ import os
 # impoert the csv reader
 import csv
 #locate csv file for election results
-csvpath = os.path.join('..', 'PyPoll', 'Resources', 'election_data.csv')
+csvpath = os.path.join('Resources', 'election_data.csv')
 #create empty carts for candidate list
 candidate_list = []
+votes = []
+table = []
 #static adding candidates
 candidates = {}
 candidatename = ""
@@ -37,21 +39,23 @@ with open(csvpath) as election_results:
       if candidatename not in candidate_list:
       # if not in list, add it; if in list move on
          candidate_list.append(candidatename)
+         table.append(candidatename)
          #if already in list, add the candidate to the dictionary; 
          # initialize candidate with 1 vote
          #{"Khan":0}
          candidates[candidatename] = 0
       candidates[candidatename] = candidates[candidatename] + 1
-   print("Total Votes")
-   print(total_votes)
+   print("Total Votes: " + str(total_votes))
    print("-----------------------")
-#-------------------- good to this point------------------------------        
+       
       #finding the individual candiate names
    for candidate in candidates:
       #for each candidate, get the votes for that candidate
       candidate_votes = candidates[candidate]
+      table.append(candidate_votes)
       #for total per candidate, divide by total votes cast
-      candidate_percentage = candidate_votes/total_votes * 100
+      candidate_percentage = round((candidate_votes/total_votes * 100),3)
+      table.append(candidate_percentage)
       #print the strings for formatting
       print(f"{candidate}: {candidate_percentage:.3f}% ({candidate_votes})")
       #going through dictionary to find candidate with most votes (line 51)
@@ -60,28 +64,30 @@ with open(csvpath) as election_results:
          winnervotes = candidate_votes
          #assigns candidate to winner
          winner = candidate
+   
    print("--------------------------------")
    print(f"Winner: {winner}")
    print("--------------------------------")
-
-
 ################### write new text file ########################
-
 # Specify the file to write to
-output_path = os.path.join("..", "PyPoll", "Analysis", "results.txt")
+output_path = os.path.join("Analysis", "results.txt")
 
 # Open the file using "write" mode. Specify the variable to hold the contents
 with open(output_path, 'w', newline='') as txtfile:
 
    # Initialize csv.writer
-   csvwriter = csv.writer(txtfile, delimiter=',')
+   wr = csv.writer(txtfile, quoting=csv.QUOTE_ALL)
 
    # Write the Vote results as CSV
-   csvwriter.writerow(["Election Results"])
-   csvwriter.writerow(["-------------------------------------"])
-   csvwriter.writerow(["Total Votes: " + str(total_votes) +" "])
-   csvwriter.writerow(["--------------------------------------"])
-   csvwriter.writerow(f'{candidates}: {candidate_percentage:.3f}% ({candidate_votes})')
-   csvwriter.writerow(["--------------------------------------"])
-   csvwriter.writerow([f"Winner: {winner}"])
-   csvwriter.writerow(["--------------------------------------"])
+   wr.writerow(["Election Results"])
+   wr.writerow(["-------------------------------------"])
+   wr.writerow(["Total Votes: " + str(total_votes) +" "])
+   wr.writerow(["--------------------------------------"])
+   x=len(candidate_list)
+   for i in range(x):
+      wr.writerow([f'{candidate_list[i]}: {table[i+x]} {table[i+x+1]}%'])
+      table.pop(i+x)
+      i=i+1
+   wr.writerow(["--------------------------------------"])
+   wr.writerow([f"Winner: {winner}"])
+   wr.writerow(["--------------------------------------"])

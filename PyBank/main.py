@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # First we'll import the os module
 # This will allow us to create file paths across operating systems
 import os
@@ -44,18 +43,19 @@ with open(csvpath) as csvfile:
     for row in csvreader:
         total_months += 1
         total_period = total_period + int(row[1])
+    #establish monthly change    
         net_change = int(row[1])-previous_netchange
         net_change_list.append(net_change)
+    # find greates increase
         if net_change > greatest_increase:
             greatest_increase = net_change
             increase_month = row[0]
+    #find greatest decrease
         if net_change < greatest_decrease:
             greatest_decrease = net_change
             decrease_month = row[0]
     avg_change = sum(net_change_list)/len(net_change_list)
-
-        #profit_loss.append(change)
-        
+    #print results to terminal        
     print ("Total Months: " + str(total_months) + "")
     print(("Total: $" + str(total_period) + ""))
     print("Average Change: $" + str(avg_change) + "")
@@ -63,7 +63,7 @@ with open(csvpath) as csvfile:
     print (f"Greated Decrease in Profits: {decrease_month} ${greatest_decrease}")
 
 # Specify the file to write to
-output_path = os.path.join("..", "PyBank", "Analysis", "analysis.csv")
+output_path = os.path.join("Analysis", "analysis.txt")
 
 # Open the file using "write" mode. Specify the variable to hold the contents
 with open(output_path, 'w', newline='') as txtfile:
@@ -71,14 +71,12 @@ with open(output_path, 'w', newline='') as txtfile:
     # Initialize csv.writer
     csvwriter = csv.writer(txtfile, delimiter=',')
 
-    csvwriter.writerow(["Financial Analysis"])
-    
+    csvwriter.writerow(["Financial Analysis"])  
     csvwriter.writerow(["-------------------------------------"])
     csvwriter.writerow(["Total Months: " + str(total_months) +""])
     csvwriter.writerow([f"Total: ${total_period}"])
     csvwriter.writerow([f"Average Change: ${avg_change}"])
     csvwriter.writerow([f"Greatest Increase in Profits: {increase_month} ${greatest_increase}"])
     csvwriter.writerow([f"Greatest Decrease in Profits: {decrease_month} ${greatest_decrease}"])
-
     csvwriter.writerow(["--------------------------------------"])
   
